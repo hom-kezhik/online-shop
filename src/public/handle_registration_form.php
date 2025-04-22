@@ -1,42 +1,64 @@
 <?php
-print_r($_GET);
-if (!empty($_GET)) {
-    $name = (string)$_GET["name"];
-    $email = (string)$_GET["email"];
-    $password = $_GET["psw"];
-    $passwordRep = $_GET["psw-repeat"];
-    $errors = [];
+//$name = $_GET["name"];
+//$email = $_GET["email"];
+//$password = $_GET["psw"];
+//$passwordRep = $_GET["psw-repeat"];
+
+$errors = [];
+if (isset($_GET["name"])) {
+    $name = $_GET["name"];
     if (strlen($name) < 2) {
-        $errors[] = "Имя должно иметь больше 2 символов <br>";
+        $errors['name'] = "Имя должно иметь больше 2 символов";
     }
+}else{
+        $errors['name'] = 'Имя должно быть заполнено';
+    }
+if (isset($_GET["email"])) {
+    $email = $_GET["email"];
     if (strlen($email) < 3) {
-        $errors[] = "email должно иметь больше 3 символов <br>";
+        $errors['email'] = "email должно иметь больше 3 символов";
+    } elseif (filter_var($email, FILTER_VALIDATE_EMAIL) === false) {
+        $errors['email'] = "email некорректный";
     }
-    if (strlen($password) < 6) {
-        $errors[] = "пароль должен иметь больше 6 символов <br>";
+}else {
+    $errors['email'] = 'email должно быть заполнено';
+      }
+if (isset($_GET["psw"])) {
+    $password = $_GET["psw"];
+    if (strlen($password) < 2) {
+        $errors['psw'] = "Пароль должен иметь больше 2 символов";
     }
-    if ($password != $passwordRep) {
-        $errors[] = "Пароли должны совпадать <br>";
-    }
-    if (empty($errors)) {
-        try {
-            $pdo = new PDO('pgsql:host=db; port=5432; dbname=mydb1', 'user', 'pwd');
-            $pdo->exec("INSERT INTO users (name, email, password) VALUES ('$name', '$email', '$password')");
-            echo "<br>";
-            $stmt = $pdo->query("SELECT * FROM users WHERE email = '$email'");
-            $user = $stmt->fetch(PDO::FETCH_ASSOC);
-            if ($user) {
-                echo "Пользователь успешно зарегистрирован!<br>";
-                echo "Имя: " . $user['name'] . "<br>";
-                echo "Email: " . $user['email'];
-            }
-        } catch (PDOException $e) {
-            echo "Ошибка базы данных: " . $e->getMessage();
-        }
-    } else {
-        // Отображение ошибок
-        foreach ($errors as $error) {
-            echo "<p style='color:red;'>$error</p>";
-        }
-    }
+} else {
+    $errors['psw'] = 'Пароль должен быть заполнен';
 }
+if (isset($_GET["psw-rep"])) {
+    $passwordRep = $_GET["psw-rep"];
+    if ($password != $passwordRep) {
+        $errors['psw-rep'] = "Пароли должны совпадать";
+    }
+} else {
+    $errors['psw-rep'] = "Повторный пароль должен быть заполнен";
+}
+if(empty($errors)) {
+    $pdo = new PDO('pgsql:host=db; port=5432; dbname=mydb1', 'user', 'pwd');
+
+    $pdo->exec("INSERT INTO users (name, email, password) VALUES ('$name', '$email', '$password')");
+    $stmt = $pdo->query("SELECT * FROM users ORDER BY id DESC LIMIT 1");
+    $data = $stmt->fetch();
+    print_r($data);
+}
+require_once './registration_form.php'
+?>
+
+
+
+
+
+
+
+
+
+
+
+
+
