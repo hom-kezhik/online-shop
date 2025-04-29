@@ -1,4 +1,7 @@
 <?php
+if(!isset($_COOKIE['user_id'])) {
+    header("Location: ./handle_login.php");
+}
 
 $pdo = new PDO('pgsql:host=db; port=5432; dbname=mydb1', 'user', 'pwd');
 

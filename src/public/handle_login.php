@@ -25,6 +25,7 @@ if ($user === false) {
 } else {
     $passwordDB = $user['password'];
     if (password_verify($password, $passwordDB)) {
+        setcookie('user_id', $user['id']);
         header("Location: ./catalog.php");
     } else {
         $errors ['username'] = 'username or password';
