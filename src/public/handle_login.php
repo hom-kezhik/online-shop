@@ -1,48 +1,44 @@
 <?php
-session_start();
-function validateUserData(array $postData): array {
+function validate(array $data): array
+{
     $errors = [];
 
-    if (isset($postData["username"])) {
-        $username = $postData["username"];
-        if (empty($username)) {
-            $errors['username'] = 'Username cannot be empty';
-        }
-    } else {
-        $errors['username'] = 'Username must be provided';
+    if (!isset($data["username"]))
+    {
+        $errors["username"] = "Поле username обязательно для заполнения!";
     }
-
-    if (isset($postData["password"])) {
-        $password = $postData["password"];
-        if (empty($password)) {
-            $errors['password'] = 'Password cannot be empty';
-        }
-    } else {
-        $errors['password'] = 'Password must be provided';
+    if (!isset($data["password"]))
+    {
+       $errors["password"] = "Поле password обязательно для заполнения!";
     }
-
     return $errors;
 }
 
 // Использование функции
-$errors = validateUserData($_POST);
-if (empty($errors)) {
-    $pdo = new PDO('pgsql:host=db; port=5432; dbname=mydb1', 'user', 'pwd');
+$errors = validate($_POST);
+if (empty($errors))
+{
     $username = $_POST['username'];
     $password = $_POST['password'];
+    $pdo = new PDO('pgsql:host=db; port=5432; dbname=mydb1', 'user', 'pwd');
     $stmt = $pdo->prepare("SELECT * FROM users WHERE email = :email");
     $stmt->execute(['email' => $username]);
     $user = $stmt->fetch();
     $errors = [];
-    if ($user === false) {
-        $errors ['username'] = 'username or password incorrect';
-    } else {
+    if ($user === false)
+    {
+        $errors ['username'] = 'Логин или пароль указан неверно';
+    } else
+    {
         $passwordDB = $user['password'];
-        if (password_verify($password, $passwordDB)) {
+        if (password_verify($password, $passwordDB))
+        {
+            session_start();
             $_SESSION['user_id'] = $user['id'];
             header("Location: ./catalog.php");
-        } else {
-            $errors ['username'] = 'username or password';
+        } else
+        {
+            $errors ['username'] = 'Логин или пароль указан неверно';
         }
     }
 }

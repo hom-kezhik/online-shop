@@ -6,27 +6,24 @@
         <hr>
 
         <label for="name"><b>Name</b></label>
-        <?php if (isset($errors['name'])): ?>
+        <?php if (!isset($errors['name'])): ?>
         <label style="color: red"><?php echo $errors['name']; ?></label>
         <?php endif; ?>
         <input type="text" placeholder="Enter Name" name="name" id="name" required>
 
         <label for="email"><b>Email</b></label>
-        <?php if (isset($errors['email'])): ?>
+        <?php if (!isset($errors['email'])): ?>
         <label style="color: red"><?php echo $errors['email']; ?></label>
         <?php endif; ?>
         <input type="text" placeholder="Enter Email" name="email" id="email" required>
 
         <label for="psw"><b>Password</b></label>
-        <?php if (isset($errors['psw'])): ?>
+        <?php if (!isset($errors['psw'])): ?>
         <label style="color: red"><?php echo $errors['psw']; ?></label>
         <?php endif;?>
         <input type="password" placeholder="Enter Password" name="psw" id="psw" required>
 
         <label for="psw-rep"><b>Repeat Password</b></label>
-        <?php if (isset($errors['psw-rep'])): ?>
-        <label style="color: red"><?php echo $errors['psw-rep']; ?></label>
-        <?php endif;?>
         <input type="password" placeholder="Repeat Password" name="psw-rep" id="psw-rep" required>
         <hr>
 
