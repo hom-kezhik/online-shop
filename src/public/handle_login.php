@@ -1,4 +1,5 @@
 <?php
+session_start();
 function validate(array $data): array
 {
     $errors = [];
@@ -33,7 +34,7 @@ if (empty($errors))
         $passwordDB = $user['password'];
         if (password_verify($password, $passwordDB))
         {
-            session_start();
+
             $_SESSION['user_id'] = $user['id'];
             header("Location: ./catalog.php");
         } else
