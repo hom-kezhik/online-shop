@@ -36,7 +36,7 @@ if (empty($errors))
         {
 
             $_SESSION['user_id'] = $user['id'];
-            header("Location: ./catalog.php");
+            header("Location: ./catalog");
         } else
         {
             $errors ['username'] = 'Логин или пароль указан неверно';

@@ -1,12 +1,12 @@
 <div class="wrapper">
-    <form class="form-signin" action="handle_login.php" method="POST">
+    <form class="form-signin" action="/login" method="POST">
         <h2 class="form-signin-heading">Please login</h2>
         <input type="text" class="form-control" name="username" placeholder="Email Address" required="" autofocus="" />
-        <?php if (!isset($errors['username'])): ?>
+        <?php if (isset($errors['username'])): ?>
             <label style="color: red"><?php echo $errors['username']; ?></label>
         <?php endif; ?>
         <input type="password" class="form-control" name="password" placeholder="Password" required=""/>
-        <?php if (!isset($errors['password'])): ?>
+        <?php if (isset($errors['password'])): ?>
             <label style="color: red"><?php echo $errors['password']; ?></label>
         <?php endif; ?>
         <label class="checkbox">

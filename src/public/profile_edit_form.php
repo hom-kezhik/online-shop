@@ -1,4 +1,4 @@
-<form action="handle_profile.php" method="POST">
+<form action="/profile_edit" method="POST">
     <section id="account">
         <fieldset>
             <legend>Account:</legend>
@@ -13,7 +13,7 @@
             <input type="password" name="psw-rep">
         </fieldset>
     </section>
-    <div id="go"><button>Go</button></div>
+    <div id="go"><button type="submit">Go</button></div>
 </form>
 
 <style>
