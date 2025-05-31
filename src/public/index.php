@@ -37,15 +37,21 @@ if($requestUri === '/registration') {
     }
 }elseif ($requestUri === '/profile_edit') {
     if ($requestMethod === 'GET') {
-        require_once './handle_profile_edit.php';
-    }elseif ($requestMethod === 'POST') {
         require_once './profile_edit_form.php';
+    }elseif ($requestMethod === 'POST') {
+        require_once './handle_profile_edit.php';
     }else{
         echo "$requestMethod для адреса $requestUri не поддерживается";
     }
 }elseif ($requestUri === '/add-product') {
     if ($requestMethod === 'GET') {
         require_once './add_product_form.php';
+    }elseif ($requestMethod === 'POST') {
+        require_once './handle_add_product.php';
+    }
+}elseif ($requestUri === '/cart') {
+    if ($requestMethod === 'GET') {
+        require_once './cart_form.php';
     }
 }
 else{

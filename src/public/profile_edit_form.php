@@ -1,19 +1,43 @@
+<?php
+
+session_start();
+if(isset($_SESSION['user_id'])){
+    $user_id = $_SESSION['user_id'];
+    $pdo = new PDO('pgsql:host=db; port=5432; dbname=mydb1', 'user', 'pwd');
+    $stmt = $pdo->query("SELECT * FROM users WHERE id = '$user_id'");
+    $user = $stmt->fetch();
+}else{
+    header("Location: /login");
+}
+?>
 <form action="/profile_edit" method="POST">
     <section id="account">
         <fieldset>
             <legend>Account:</legend>
 
             <label>Username:</label>
-            <input type="text" name="name" value="<?= $user['name'] ?>">
+            <?php if (isset($errors['username'])): ?>
+            <label style="accent-color: #0a0a0a"> <?php echo $errors['name']?></label>
+            <?php endif; ?>
+            <input type="text" name="name" id = "name"  value="<?php echo $user['name'] ?>"required>
             <label>Email address:</label>
-            <input type="text" name="email" value="<?= $user['email'] ?>">
+            <?php if (isset($errors['email'])): ?>
+            <label style="accent-color: #0a0a0a"> <?php echo $errors['email']?></label>
+            <?php endif; ?>
+            <input type="text" name="email" id = "email" value="<?php echo $user['email'] ?>" required>
             <label>Password:</label>
-            <input type="password" name="psw">
+            <?php if (isset($errors['psw'])): ?>
+            <label style="accent-color: #0a0a0a"><?php echo $errors['psw']?></label>
+            <?php endif; ?>
+            <input type="password" name="psw" id = "psw" required>
             <label>Confirm password:</label>
-            <input type="password" name="psw-rep">
+            <?php if (isset($errors['psw-rep'])): ?>
+            <label style="accent-color: #0a0a0a"><?php echo $errors['psw-rep']?></label>
+            <?php endif; ?>
+            <input type="password" name="psw-rep" id = "psw-rep" required>
         </fieldset>
     </section>
-    <div id="go"><button type="submit">Go</button></div>
+    <div id="go"><button type="submit">Изменить</button></div>
 </form>
 
 <style>
